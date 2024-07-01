@@ -63,7 +63,7 @@ const Payment = () => {
         }
       })
     }
-  }, [navigate, shippingInfo]);
+  }, [dispatch, navigate, orderError, shippingInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();

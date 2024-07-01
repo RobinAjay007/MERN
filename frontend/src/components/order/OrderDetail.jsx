@@ -16,7 +16,7 @@ const OrderDetail = () => {
     paymentInfo = {},
   } = orderDetail; 
   const isPaid =
-    paymentInfo && paymentInfo.status === "Succeeded" ? true : false;
+    paymentInfo && paymentInfo.status === "succeeded" ? true : false;
   const dispatch = useDispatch();
   const {id} = useParams();
 

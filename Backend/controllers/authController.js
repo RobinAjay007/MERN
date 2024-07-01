@@ -38,7 +38,6 @@ exports.loginUser = catchAsyncError(async(req,res,next)=>{
     }
     // find the user data
    const user=await User.findOne({email:email}).select('+password');
-   console.log(user)
 
    if(!user){
     return next(new ErrorHandler('Invalid email or password',401))
@@ -73,19 +72,16 @@ exports.forgotPassword = catchAsyncError(async (req,res,next)=>{
    
    // create reset url
    const resetUrl= `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
-   console.log(resetUrl)
 
    const message = `Your password reset url is follow \n\n${resetUrl}\n\n If you have not requested this email, then ignore it.`;
-   console.log(message)
+
    try{
-    console.log(user.email)
     sendEmail({
         
         email:user.email,
         subject:"Ajaycart Password Recovery",
         message
     })
-    console.log('hi')
 
     res.status(200).json({
         success:true,
@@ -143,6 +139,7 @@ exports.changePassword=catchAsyncError(async(req,res,next)=>{
     if(!user.isValidPassword(req.body.oldPassword)){
         return next(new ErrorHandler('Old password is incorrect',401));
     }
+    
 
    // assigning new password
 

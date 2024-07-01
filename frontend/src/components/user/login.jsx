@@ -73,9 +73,9 @@ const Login = () => {
               LOGIN
             </button>
 
-            <a href="#" className="float-right mt-3">
+            <Link to={"/register"} className="float-right mt-3">
               New User?
-            </a>
+            </Link>
           </form>
         </div>
       </div>

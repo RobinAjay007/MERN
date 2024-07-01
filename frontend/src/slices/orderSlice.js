@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 
 const orderSlice = createSlice({
@@ -5,7 +6,10 @@ const orderSlice = createSlice({
   initialState: {
     orderDetail: {},
     userOrders: [],
+    adminOrders:[],
     loading: false,
+    isOrderDeleted:false,
+    isOrderUpdated:false,
     error: null // Initialize error as null
   },
   reducers: {
@@ -85,6 +89,84 @@ const orderSlice = createSlice({
         error: action.payload
       };
     },
+    adminOrderRequest(state, action) {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    },
+    adminOrderSuccess(state, action) {
+      return {
+        ...state,
+        loading: false,
+        adminOrders: action.payload.orders,
+        error: null
+      };
+    },
+    adminOrderFail(state, action) {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    },
+    deleteOrderRequest(state, action) {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    },
+    deleteOrderSuccess(state, action) {
+      return {
+        ...state,
+        loading: false,
+        isOrderDeleted:true,
+        error: null
+      };
+    },
+    deleteOrderFail(state, action) {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    },
+    updateOrderRequest(state, action) {
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    },
+    updateOrderSuccess(state, action) {
+      return {
+        ...state,
+        loading: false,
+        isOrderUpdated:true,
+        error: null
+      };
+    },
+    updateOrderFail(state, action) {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    },
+    clearOrderDeleted(state,action){
+      return{
+        ...state,
+        isOrderDeleted:false
+      }
+    },
+    clearOrderUpdated(state,action){
+      return{
+        ...state,
+        isOrderUpdated:false
+      }
+    },
   },
 });
 
@@ -100,7 +182,18 @@ export const {
   userOrderFail,
   orderDetailRequest,
   orderDetailSuccess,
-  orderDetailFail
+  orderDetailFail,
+  adminOrderFail,
+  adminOrderRequest,
+  adminOrderSuccess,
+  deleteOrderFail,
+  deleteOrderRequest,
+  deleteOrderSuccess,
+  updateOrderFail,
+  updateOrderRequest,
+  updateOrderSuccess,
+  clearOrderDeleted,
+  clearOrderUpdated
 } = actions;
 
 export default reducer;

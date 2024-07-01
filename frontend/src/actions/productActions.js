@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { productsFail, productsRequest, productsSuccess } from '../slices/productsSlices';
-import { createReviewFail, createReviewRequest, createReviewSuccess, productFail, productRequest, productSuccess } from '../slices/productSlice';
+import { adminProductsFail, adminProductsRequest, adminProductsSuccess, productsFail, productsRequest, productsSuccess } from '../slices/productsSlices';
+import { createReviewFail, createReviewRequest, createReviewSuccess, deleteProductFail, deleteProductRequest, deleteProductSuccess, newProductFail, newProductRequest, newProductSuccess, productFail, productRequest, productSuccess, updateProductFail, updateProductRequest, updateProductSuccess } from '../slices/productSlice';
 
 
 export const getProducts= (keyword,price,category,rating, currentPage)=> async (dispatch)=>{
@@ -58,5 +58,79 @@ export const createReview = reviewData=> async (dispatch)=>{
   }
   catch(error){
       dispatch(createReviewFail(error.response.data.message))
+  }
+};
+
+
+export const getAdminProducts= async (dispatch)=>{
+  try{
+      
+      dispatch(adminProductsRequest())
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Include credentials (cookies) in the request
+      };
+     const {data}=await axios.get("http://localhost:4898/api/v1/admin/products",config)
+      dispatch(adminProductsSuccess(data));
+  }
+  catch(error){
+      dispatch(adminProductsFail(error.response.data.message))
+  }
+};
+
+
+export const createNewProducts=productData=> async (dispatch)=>{
+  try{
+      
+      dispatch(newProductRequest())
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true, // Include credentials (cookies) in the request
+      };
+     const {data}=await axios.post("http://localhost:4898/api/v1/admin/product/new",productData,config)
+      dispatch(newProductSuccess(data));
+  }
+  catch(error){
+      dispatch(newProductFail(error.response.data.message))
+  }
+}
+
+export const deleteProduct=id=> async (dispatch)=>{
+  try{
+      
+      dispatch(deleteProductRequest())
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Include credentials (cookies) in the request
+      };
+     await axios.delete(`http://localhost:4898/api/v1/admin/product/${id}`,config)
+      dispatch(deleteProductSuccess());
+  }
+  catch(error){
+      dispatch(deleteProductFail(error.response.data.message))
+  }
+}
+
+export const updateProduct=(id, productData)=> async (dispatch)=>{
+  try{
+      
+      dispatch(updateProductRequest())
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true, // Include credentials (cookies) in the request
+      };
+     const {data}=await axios.put(`http://localhost:4898/api/v1/admin/product/${id}`,productData,config,)
+      dispatch(updateProductSuccess(data));
+  }
+  catch(error){
+      dispatch(updateProductFail(error.response.data.message))
   }
 }
